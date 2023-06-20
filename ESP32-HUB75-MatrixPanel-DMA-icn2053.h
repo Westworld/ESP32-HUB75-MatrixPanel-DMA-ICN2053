@@ -156,7 +156,8 @@ class MatrixPanel_DMA {
     void flipBuffer();    
     //для совместимости
     void flipDMABuffer();
-
+    bool flipDMABufferIfReady();
+    
     //this is just a wrapper to control brightness
     //with an 8-bit value (0-255), very popular in FastLED-based sketches :)
     //@param uint8_t b - 8-bit brightness value
