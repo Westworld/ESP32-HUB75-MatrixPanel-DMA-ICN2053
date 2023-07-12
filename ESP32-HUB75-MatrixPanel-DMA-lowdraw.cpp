@@ -2,7 +2,7 @@
 
 #ifndef _swap_int16
 #define _swap_int16(a, b)\
-  {                      \
+  {                      \ 
     int16_t t = a;       \
     a = b;               \
     b = t;               \
@@ -16,6 +16,57 @@ typedef union
   uint32_t* p32;
   vbuffer_t* pXX;
 }uniptr_t;
+
+
+
+void MatrixPanel_DMA::CopyBuffer(int16_t y_from, int16_t y_till, u_int16_t * source )
+{
+  if ( !initialized ) 
+  { 
+    #ifdef SERIAL_DEBUG 
+    Serial.println(F("Cannot updateMatrixDMABuffer as setup failed!"));
+    #endif         
+    return;
+  }
+
+  uniptr_t addr;
+  int sourcecounter = 0;
+  int offset_y = y_from*frame_buffer.row_len;
+  while (y_till >= 0) 
+  {
+    switch (dma_buff.color_bits)  
+    {
+      #ifdef USE_COLORx16
+      case -16:
+        addr.pXX = &frame_buffer.frameBits[back_buffer_id][offset_y];
+      break;
+      #endif
+    } 
+    int16_t x = 0;
+    int16_t x2 = 127;
+    int16_t _x2 = x2;
+    while (x2 >= 0) 
+    {
+      switch (dma_buff.color_bits)  
+      {
+        #ifdef USE_COLORx16
+        case -16:
+          addr.p16[x] = source[sourcecounter++];
+        break;
+        #endif
+        default:
+          //drawUserPixel(x,y_from,source[sourcecounter++]);
+        break;
+      } 
+      x++;
+      x2--;
+    }
+    y_from++;
+    offset_y += frame_buffer.row_len;
+    x2 = _x2;
+    y_till--;
+  }
+}
 
 
 void MatrixPanel_DMA::fillRectFrameBuffer(int16_t x1, int16_t y1, int16_t x2, int16_t y2)

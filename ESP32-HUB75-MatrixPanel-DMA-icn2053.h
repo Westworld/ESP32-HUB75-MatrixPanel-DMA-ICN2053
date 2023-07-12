@@ -189,6 +189,7 @@ class MatrixPanel_DMA {
     void waitDmaReady();
     //void setpalleteRGB(palleteRGB_p palleteRGB);
 
+   void CopyBuffer(int16_t y_from, int16_t y_till, u_int16_t * source );
   
     //bool autoShowFrame = true; //автовывод отправленного видеобуфера
 
@@ -236,6 +237,7 @@ class MatrixPanel_DMA {
     void _steepDrawPixelRGB(bool steep, int16_t x, int16_t y, uint8_t r, uint8_t g, uint8_t b);
     void _writeLineAARGB(bool steep, int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint8_t r, uint8_t g, uint8_t b);
 
+ 
    // ------- PRIVATE -------
   private:    
     //омновные буфера
@@ -312,7 +314,7 @@ class MatrixPanel_DMA {
 
     //отрисовка прямоугольника в видеобуфере
     void fillRectFrameBuffer(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
-    
+
     //----- функции shift и icn2038 -----
     #ifdef DIRECT_DRIVER_INIT
     //инициализация буферов с непосредстенной запись с порт - оставлено для отладкиы    
