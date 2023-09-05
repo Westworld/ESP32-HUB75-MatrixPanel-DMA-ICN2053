@@ -1054,6 +1054,9 @@ IRAM_ATTR bool MatrixPanel_DMA::flipDMABufferIfReady()
     return true;
 }
 
+IRAM_ATTR bool MatrixPanel_DMA::isDMABufferReady() {
+  return bufferReady;
+}
 
 void MatrixPanel_DMA::setDMAGetUserRGB(getUserRGB_p _getUserRGB)
 {
